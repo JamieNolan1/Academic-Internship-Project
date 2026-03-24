@@ -1,0 +1,15 @@
+body { font-family: georgia, serif; 
+ background-color: #3F0BA2;
+}
+.middle{
+	display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+.west{
+  width: 300px;	
+}
+.east{
+  width: 300px;
+}

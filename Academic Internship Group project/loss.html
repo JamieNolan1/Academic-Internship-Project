@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Loss</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="middle">
+<h1>Business loss calculator</h1>
+</div>
+<form id="lossForm">
+<Label for="price">The price of the product</label>
+<input type="number" id="price" value="0"></input><br>
+<Label for="sold">How much of the product was sold?</label>
+<input type="number" id="sold" value="0"></input><br>
+<Label for="theft">How much of the product was lost in the theft?</label>
+<input type="number" id="theft" value="0"></input><br>
+<!--<div class="west">
+<h3>How much of the product was leftover in stock?</h3>
+<input type="number"></input>
+</div>-->
+<button type="button" id="lossButton">Loss total</button>
+<!--<input type="submit" value="Calculate">-->
+<output id="loss">0</output><br>
+</form>
+<!--<img src="LOSS.png">-->
+<script>
+ var price = document.getElementById("price");
+ var sold = document.getElementById("sold");
+ var theft = document.getElementById("theft");
+ var loss = document.getElementById("loss");
+ var lossButton = document.getElementById("lossButton");
+ function calculateLoss(){
+ var a = Number(price.value);
+ var b = Number(sold.value);
+ var d = Number(theft.value);
+ var c  = a*b-a*d;
+ loss.value = c;
+ }
+ lossButton.addEventListener("click", calculateLoss);
+</script>
+</body>
+</html>
