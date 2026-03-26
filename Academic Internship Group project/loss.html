@@ -6,35 +6,44 @@
 </head>
 <body>
 <div class="middle">
-<h1>Business loss calculator</h1>
+<h1>Business profit calculator</h1>
 </div>
+<div class="west">
 <form id="lossForm">
-<Label for="price">The price of the product</label>
+<Label for="product">How much did you spend getting/making the product? €</label>
+<input type="number" id="product" value="0"></input><br>
+<Label for="price">The price of the product €</label>
 <input type="number" id="price" value="0"></input><br>
-<Label for="sold">How much of the product was sold?</label>
+<Label for="sold">How many units of the product were sold? </label>
 <input type="number" id="sold" value="0"></input><br>
-<Label for="theft">How much of the product was lost in the theft?</label>
+<Label for="theft">How many units of the product were lost in the theft? </label>
 <input type="number" id="theft" value="0"></input><br>
-<!--<div class="west">
-<h3>How much of the product was leftover in stock?</h3>
-<input type="number"></input>
-</div>-->
-<button type="button" id="lossButton">Loss total</button>
+<Label for="stock">How many units of the product went unsold? </Label>
+<input type="number" id="stock" value="0"></input><br>
+<p></p>
+<button type="button" id="lossButton">Profit total</button>
 <!--<input type="submit" value="Calculate">-->
+
+<Label for="loss">€</label>
 <output id="loss">0</output><br>
 </form>
+</div>
 <!--<img src="LOSS.png">-->
 <script>
  var price = document.getElementById("price");
  var sold = document.getElementById("sold");
  var theft = document.getElementById("theft");
  var loss = document.getElementById("loss");
+ var stock = document.getElementById("stock");
+ var product = document.getElementById("product");
  var lossButton = document.getElementById("lossButton");
  function calculateLoss(){
  var a = Number(price.value);
  var b = Number(sold.value);
  var d = Number(theft.value);
- var c  = a*b-a*d;
+ var e = Number(stock.value);
+ var f = Number(product.value);
+ var c  = ((a*b-a*d)-a*e)-f;
  loss.value = c;
  }
  lossButton.addEventListener("click", calculateLoss);

@@ -1,5 +1,5 @@
 body { font-family: georgia, serif; 
- background-color: #3F0BA2;
+ background-color: #40d4ad;
 }
 .middle{
 	display: flex;
@@ -8,7 +8,7 @@ body { font-family: georgia, serif;
   height: 100px;
 }
 .west{
-  width: 300px;	
+  width: 600px;	
 }
 .east{
   width: 300px;
