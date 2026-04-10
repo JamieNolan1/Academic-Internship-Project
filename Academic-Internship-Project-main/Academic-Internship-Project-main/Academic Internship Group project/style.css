@@ -32,3 +32,10 @@ body { font-family: georgia, serif;
 .Lbutton{
 	background-color: #04AA6D;
 }
+.question{
+	color: red;
+	font-style: italic;
+}
+.answer{
+	color:green;
+}
