@@ -6,6 +6,7 @@
 		<meta name ="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css">
 	</head>
+	<body>
 		<div class="netnav">
 		<h1>ProfitPros</h1>
 		<a href="index.html">HomePage</a>
@@ -18,26 +19,30 @@
 		<a href="signup.html">Create New Account</a>
 		</div>
 		    <div class="signup-box">
-        <form action="">
+        <form id="signupForm">
             <h2>Sign Up</h2>
 
             <div class="input-box">
                 <span class="icon"></span>
-                <input type="email" required>
+                <input type="email" id="email" required>
                 <label>Email</label>
             </div>
 
             <div class="input-box">
                 <span class="icon"></span>
-                <input type="password" required>
-                <label>Password</label>
+                <input type="password" id="password" required>
+                <label>Password (min 8 characters & at least one special symbol)</label>
             </div>
+			
+			 <div class="input-box">
+                <span class="icon"></span>
+                <input type="password" id="confirmPassword" required>
+                <label>Confirm Password)</label>
+            </div>
+			
+			  <div id="errorMessage" style="color: red; margin: 10px 0; min-height: 20px;">
+			  </div>
 
-            <div class="remember-forgot">
-                <label>
-                    <input type="checkbox"> Remember Me
-                </label>
-                <br>
                 <button type="submit">Register</button>
                 <br></br>
 				<label>Already Have An Account?</label>
@@ -45,3 +50,7 @@
             </div>
         </form>
     </div>
+	<script src="signupFunction.js"></script>
+	
+</body>
+</html>

@@ -31,7 +31,7 @@ pool.connect((err, client, release) => {
 
 // ==================== MIDDLEWARE ====================
 app.use(cors({
-    origin: 'http://127.0.0.1:5500',
+    origin: ['http://127.0.0.1:5500', 'http://localhost'],
     credentials: true
 }));
 app.use(express.json());
@@ -137,13 +137,14 @@ app.post('/api/auth/login', async (req, res) => {
 
 // ==================== LOSS CALCULATION ROUTES (Protected) ====================
 
-// GET all products
+// GET all products (filtered by user)
 app.get('/api/loss', authenticateToken, async (req, res) => {
     try {
         await pool.query('SELECT set_current_user($1)', [req.user.userId]);
         
         const result = await pool.query(
-            'SELECT * FROM loss_calculation ORDER BY created_at DESC'
+            'SELECT * FROM loss_calculation WHERE user_id = $1 ORDER BY created_at DESC',
+            [req.user.userId]
         );
         
         res.json(result.rows);
@@ -153,7 +154,24 @@ app.get('/api/loss', authenticateToken, async (req, res) => {
     }
 });
 
-// GET single product
+// GET entries for the current user
+app.get('/api/loss/entries', authenticateToken, async (req, res) => {
+    try {
+        await pool.query('SELECT set_current_user($1)', [req.user.userId]);
+        
+        const result = await pool.query(
+            'SELECT * FROM loss_calculation WHERE user_id = $1 ORDER BY created_at DESC',
+            [req.user.userId]
+        );
+        
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching entries:', error);
+        res.status(500).json({ error: 'Failed to fetch entries.' });
+    }
+});
+
+// GET single product 
 app.get('/api/loss/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     
@@ -161,8 +179,8 @@ app.get('/api/loss/:id', authenticateToken, async (req, res) => {
         await pool.query('SELECT set_current_user($1)', [req.user.userId]);
         
         const result = await pool.query(
-            'SELECT * FROM loss_calculation WHERE id = $1',
-            [id]
+            'SELECT * FROM loss_calculation WHERE id = $1 AND user_id = $2',
+            [id, req.user.userId]
         );
         
         if (result.rows.length === 0) {
@@ -176,9 +194,9 @@ app.get('/api/loss/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// ADD new product
+// ADD new product (update with cost_per_unit)
 app.post('/api/loss', authenticateToken, async (req, res) => {
-    const { productName, price, amountStocked, amountSold, amountStolen } = req.body;
+    const { productName, price, costPerUnit, amountStocked, amountSold, amountStolen } = req.body;
     
     if (!productName || price === undefined || amountStocked === undefined) {
         return res.status(400).json({ error: 'Product name, price, and amount stocked are required.' });
@@ -189,10 +207,10 @@ app.post('/api/loss', authenticateToken, async (req, res) => {
         
         const result = await pool.query(
             `INSERT INTO loss_calculation 
-             (user_id, product_name, price, amount_stocked, amount_sold, amount_stolen)
-             VALUES ($1, $2, $3, $4, $5, $6)
+             (user_id, product_name, price, cost_per_unit, amount_stocked, amount_sold, amount_stolen)
+             VALUES ($1, $2, $3, $4, $5, $6, $7)
              RETURNING *`,
-            [req.user.userId, productName, price, amountStocked || 0, amountSold || 0, amountStolen || 0]
+            [req.user.userId, productName, price, costPerUnit || 0, amountStocked || 0, amountSold || 0, amountStolen || 0]
         );
         
         res.status(201).json(result.rows[0]);
@@ -205,43 +223,7 @@ app.post('/api/loss', authenticateToken, async (req, res) => {
         }
     }
 });
-
-// UPDATE product
-app.put('/api/loss/:id', authenticateToken, async (req, res) => {
-    const { id } = req.params;
-    const { productName, price, amountStocked, amountSold, amountStolen } = req.body;
-    
-    try {
-        await pool.query('SELECT set_current_user($1)', [req.user.userId]);
-        
-        const result = await pool.query(
-            `UPDATE loss_calculation 
-             SET product_name = $1, 
-                 price = $2, 
-                 amount_stocked = $3, 
-                 amount_sold = $4, 
-                 amount_stolen = $5
-             WHERE id = $6
-             RETURNING *`,
-            [productName, price, amountStocked, amountSold, amountStolen, id]
-        );
-        
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Product not found or access denied.' });
-        }
-        
-        res.json(result.rows[0]);
-    } catch (error) {
-        console.error('Error updating product:', error);
-        if (error.code === '23514') {
-            res.status(400).json({ error: 'Invalid inventory. Sold + stolen cannot exceed stocked.' });
-        } else {
-            res.status(500).json({ error: 'Failed to update product.' });
-        }
-    }
-});
-
-// DELETE product
+// DELETE product 
 app.delete('/api/loss/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     
@@ -249,8 +231,8 @@ app.delete('/api/loss/:id', authenticateToken, async (req, res) => {
         await pool.query('SELECT set_current_user($1)', [req.user.userId]);
         
         const result = await pool.query(
-            'DELETE FROM loss_calculation WHERE id = $1 RETURNING id',
-            [id]
+            'DELETE FROM loss_calculation WHERE id = $1 AND user_id = $2 RETURNING id',
+            [id, req.user.userId]
         );
         
         if (result.rows.length === 0) {
@@ -264,7 +246,7 @@ app.delete('/api/loss/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// GET summary stats
+// GET summary stats 
 app.get('/api/loss/summary', authenticateToken, async (req, res) => {
     try {
         await pool.query('SELECT set_current_user($1)', [req.user.userId]);
@@ -275,7 +257,9 @@ app.get('/api/loss/summary', authenticateToken, async (req, res) => {
                 COALESCE(SUM(total_sales), 0) as total_revenue,
                 COALESCE(SUM(total_loss), 0) as total_loss,
                 COALESCE(AVG(loss_percentage), 0) as avg_loss_percentage
-             FROM loss_calculation`
+             FROM loss_calculation
+             WHERE user_id = $1`,
+            [req.user.userId]
         );
         
         res.json(result.rows[0]);
@@ -285,10 +269,10 @@ app.get('/api/loss/summary', authenticateToken, async (req, res) => {
     }
 });
 
-// ==================== START SERVER ====================
+// start server
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`📊 API endpoints:`);
+    console.log(` Server running on http://localhost:${PORT}`);
+    console.log(` API endpoints:`);
     console.log(`   POST   /api/auth/register`);
     console.log(`   POST   /api/auth/login`);
     console.log(`   GET    /api/loss`);
