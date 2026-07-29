@@ -31,7 +31,12 @@ pool.connect((err, client, release) => {
 
 // ==================== MIDDLEWARE ====================
 app.use(cors({
-    origin: ['http://127.0.0.1:5500', 'http://localhost'],
+    origin: [
+        'http://127.0.0.1:5500',
+        'http://localhost',
+        'https://academic-internship-project.netlify.app'
+		'https://profitpros-php.onrender.com'
+    ],
     credentials: true
 }));
 app.use(express.json());
