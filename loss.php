@@ -76,7 +76,7 @@ if (!$token) {
 $username = $_SESSION['username'] ?? null;
 
 //connect to node.js API
-$api_url = 'https://your-backend.onrender.com/api/loss';
+$api_url = 'https://academic-internship-project.onrender.com/api/loss';
 $profit_loss = 0;
 $total_revenue = 0;
 $total_cost = 0;
@@ -90,7 +90,7 @@ $entries_error = null;
 
 function fetchEntries($token) {
     // Add timestamp to prevent caching
-    $api_url = 'http://localhost:3000/api/loss/entries?_=' . time();
+    $api_url = 'https://academic-internship-project.onrender.com/api/loss/entries?_=' . time();
     
     $ch = curl_init($api_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id']) && isset(
     $delete_id = intval($_POST['delete_id']);
     $delete_token = $token;
     
-    $delete_url = 'http://localhost:3000/api/loss/' . $delete_id;
+    $delete_url = 'https://academic-internship-project.onrender.com/api/loss/' . $delete_id;
     
     $ch = curl_init($delete_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
