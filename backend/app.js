@@ -9,6 +9,9 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
+
 // ==================== DATABASE CONNECTION ====================
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
