@@ -1,5 +1,5 @@
 //api config
-$api_url = 'https://your-backend.onrender.com/api/loss';
+const API_BASE_URL = 'https://academic-internship-project.onrender.com/api';
 
 //login functionality
 document.addEventListener('DOMContentLoaded', function() {

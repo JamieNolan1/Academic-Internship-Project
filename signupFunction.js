@@ -1,7 +1,7 @@
 // signupFunction.js
 
 // connect to api 
-$api_url = 'https://your-backend.onrender.com/api/loss';
+const API_BASE_URL = 'https://academic-internship-project.onrender.com/api';
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded');
