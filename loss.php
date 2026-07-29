@@ -76,7 +76,7 @@ if (!$token) {
 $username = $_SESSION['username'] ?? null;
 
 //connect to node.js API
-$api_url = 'http://localhost:3000/api/loss';
+$api_url = 'https://your-backend.onrender.com/api/loss';
 $profit_loss = 0;
 $total_revenue = 0;
 $total_cost = 0;

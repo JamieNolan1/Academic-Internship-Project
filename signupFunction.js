@@ -1,7 +1,7 @@
 // signupFunction.js
 
-// connect to api (localhost for now)
-const API_BASE_URL = 'http://localhost:3000/api';
+// connect to api 
+$api_url = 'https://your-backend.onrender.com/api/loss';
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded');

@@ -1,5 +1,5 @@
 //api config
-const API_BASE_URL = 'http://localhost:3000/api';
+$api_url = 'https://your-backend.onrender.com/api/loss';
 
 //login functionality
 document.addEventListener('DOMContentLoaded', function() {
