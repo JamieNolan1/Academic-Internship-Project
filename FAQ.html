@@ -6,16 +6,34 @@
 	</head>
 	<body>
 	<div class="netnav">
-	<h1>ProfitPros</h1>
-	<div class="netnav">
-    <a href="index.html">HomePage</a>
-    <a href="Stock.html">Stocks</a>
-    <a href="loss.php">Calculator</a> 
-    <a href="Contact.html">Contact Us</a>
-    <a href="FAQ.html">FAQ</a>
-    <a href="Login.html">Login</a>
-    <a href="signup.html">Sign Up</a>
+    <h1>ProfitPros</h1>
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; width: 100%;">
+        <div>
+            <a href="index.html">HomePage</a>
+            <a href="Stock.html">Stocks</a>
+            <a href="loss.php">Calculator</a>
+            <a href="Contact.html">Contact Us</a>
+            <a href="FAQ.html">FAQ</a>
+            <a href="Login.html">Login</a>
+            <a href="signup.html">Create New Account</a>
+        </div>
+        
+        <!-- User Name (only shows when logged in) -->
+        <div id="userInfo" style="display: none; color: #fff; padding: 5px 15px; background: rgba(0,0,0,0.2); border-radius: 5px;">
+            <span id="usernameDisplay"></span>
+            <button onclick="logout()" style="
+                background: #e74c3c;
+                color: white;
+                border: none;
+                padding: 5px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-left: 10px;
+            ">Logout</button>
+        </div>
+    </div>
 </div>
+
 	<div class="middle">
 	<h1>Frequently asked questions</h1>
 	</div>
@@ -34,5 +52,6 @@
 <div class="botbar">
 <h3>profitPros created by Daniel Massey, Jamie Nolan and Peter Burke</h3>
 </div>
+<script src="auth.js"></script>
 </body>
 </html>	

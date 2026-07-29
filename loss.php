@@ -3,6 +3,42 @@
 // Start session
 session_start();
 
+//Login handler
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $input = file_get_contents('php://input');
+    $data = json_decode($input, true);
+    
+    if ($data && isset($data['set_session'])) {
+        $_SESSION['username'] = $data['username'] ?? null;
+        $_SESSION['user_id'] = $data['userId'] ?? null;
+        echo json_encode(['success' => true]);
+        exit;
+    }
+}
+
+//logout handler
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header('Location: Login.html');
+    exit;
+}
+
+//get username as json to display on pages
+if (isset($_GET['get_user'])) {
+    header('Content-Type: application/json');
+    if (isset($_SESSION['username'])) {
+        echo json_encode([
+            'logged_in' => true,
+            'username' => $_SESSION['username']
+        ]);
+    } else {
+        echo json_encode([
+            'logged_in' => false,
+            'username' => null
+        ]);
+    }
+    exit;
+}
 // prevent caching of old entries for table
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
@@ -35,6 +71,9 @@ if (!$token) {
     header('Location: Login.html');
     exit;
 }
+
+//get the username from the session
+$username = $_SESSION['username'] ?? null;
 
 //connect to node.js API
 $api_url = 'http://localhost:3000/api/loss';
@@ -104,13 +143,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id']) && isset(
         echo "<script>window.location.href = 'loss.php?_=' + Date.now();</script>";
         exit;
     } else {
-        echo "<p style='color:red; text-align:center'>✗ Failed to delete entry. HTTP " . $http_code . "</p>";
+        echo "<p style='color:red; text-align:center'> Failed to delete entry. HTTP " . $http_code . "</p>";
         echo "<pre style='color:red;'>" . htmlspecialchars($response) . "</pre>";
     }
 }
 
-// Only runs when delete_action is NOT set
-if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['delete_action'])) {
+// Only runs when delete_action is NOT set 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['delete_action']) && isset($_POST['cost_per_unit'])) {
     
     $cost_per_unit = floatval($_POST['cost_per_unit'] ?? 0);
     $price = floatval($_POST['price'] ?? 0);
@@ -220,13 +259,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['delete_action'])) {
 <body>
 
 <div class="netnav">
-    <a href="index.html">HomePage</a>
-    <a href="Stock.html">Stocks</a>
-    <a href="loss.php">Calculator</a> 
-    <a href="Contact.html">Contact Us</a>
-    <a href="FAQ.html">FAQ</a>
-    <a href="Login.html">Login</a>
-    <a href="signup.html">Sign Up</a>
+    <h1>ProfitPros</h1>
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; width: 100%;">
+        <div>
+            <a href="index.html">HomePage</a>
+            <a href="Stock.html">Stocks</a>
+            <a href="loss.php">Calculator</a>
+            <a href="Contact.html">Contact Us</a>
+            <a href="FAQ.html">FAQ</a>
+            <a href="Login.html">Login</a>
+            <a href="signup.html">Create New Account</a>
+        </div>
+        
+        <!-- User Info (PHP version - shows username from session) -->
+        <div id="userInfo" style="display: <?php echo $username ? 'block' : 'none'; ?>; color: #fff; padding: 5px 15px; background: rgba(0,0,0,0.2); border-radius: 5px;">
+            <span id="usernameDisplay"> <?php echo htmlspecialchars($username ?? ''); ?></span>
+            <a href="loss.php?logout=1" style="
+                background: #e74c3c;
+                color: white;
+                border: none;
+                padding: 5px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-left: 10px;
+                text-decoration: none;
+                display: inline-block;
+            ">Logout</a>
+        </div>
+    </div>
 </div>
 
 <div class="middle">

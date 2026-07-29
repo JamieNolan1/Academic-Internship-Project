@@ -8,16 +8,34 @@
 	</head>
 	<body>
 		<div class="netnav">
-		<h1>ProfitPros</h1>
-		<a href="index.html">HomePage</a>
-		<a href="Stock.html">Stocks</a>
-		<a href="loss.php">Calculator</a>
-		<a href="Contact.html">Contact Us</a>
-		<a href="FAQ.html">FAQ</a>
-		<br> </br>
-		<a href="Login.html">Login</a>
-		<a href="signup.html">Create New Account</a>
-		</div>
+    <h1>ProfitPros</h1>
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; width: 100%;">
+        <div>
+            <a href="index.html">HomePage</a>
+            <a href="Stock.html">Stocks</a>
+            <a href="loss.php">Calculator</a>
+            <a href="Contact.html">Contact Us</a>
+            <a href="FAQ.html">FAQ</a>
+            <a href="Login.html">Login</a>
+            <a href="signup.html">Create New Account</a>
+        </div>
+        
+        <!-- User Name (only shows when logged in) -->
+        <div id="userInfo" style="display: none; color: #fff; padding: 5px 15px; background: rgba(0,0,0,0.2); border-radius: 5px;">
+            <span id="usernameDisplay"></span>
+            <button onclick="logout()" style="
+                background: #e74c3c;
+                color: white;
+                border: none;
+                padding: 5px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-left: 10px;
+            ">Logout</button>
+        </div>
+    </div>
+</div>
+
 		    <div class="signup-box">
         <form id="signupForm">
             <h2>Sign Up</h2>
@@ -32,6 +50,32 @@
                 <span class="icon"></span>
                 <input type="password" id="password" required>
                 <label>Password (min 8 characters & at least one special symbol)</label>
+            </div>
+			
+			  <div id="passwordStrengthContainer" style="margin-top: 8px;">
+                    <div id="strengthBar" style="
+                        width: 20%;
+                        height: 6px;
+                        background: #e0e0e0;
+                        border-radius: 3px;
+                        overflow: hidden;
+                        transition: all 0.3s ease;
+                    ">
+                        <div id="strengthFill" style="
+                            width: 0%;
+                            height: 100%;
+                            background: #e74c3c;
+                            border-radius: 3px;
+                            transition: width 0.3s ease;
+                        "></div>
+                    </div>
+                    <div id="strengthText" style="
+                        margin-top: 4px;
+                        font-size: 12px;
+                        color: #666;
+                        text-align: right;
+                    "></div>
+                </div>
             </div>
 			
 			 <div class="input-box">
@@ -51,9 +95,6 @@
         </form>
     </div>
 	<script src="signupFunction.js"></script>
-<<<<<<< HEAD
-	
-=======
->>>>>>> 492785e60e75ccb9e1211a0125911f1eee984570
+	<script src="auth.js"></script>
 </body>
 </html>
