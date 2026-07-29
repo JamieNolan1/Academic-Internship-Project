@@ -1,0 +1,2 @@
+# Redirect loss.php to Render
+/loss.php https://profitpros-php.onrender.com/loss.php 302
