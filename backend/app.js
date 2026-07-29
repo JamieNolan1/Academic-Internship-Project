@@ -36,10 +36,6 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
-
-// Handle preflight requests
-app.options('*', cors());
-
 app.use(express.json());
 
 // ==================== AUTHENTICATION MIDDLEWARE ====================
