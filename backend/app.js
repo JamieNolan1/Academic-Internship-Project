@@ -31,13 +31,15 @@ pool.connect((err, client, release) => {
 
 // ==================== MIDDLEWARE ====================
 app.use(cors({
-    origin: [
-        'http://127.0.0.1:5500',
-        'http://localhost',
-        'https://academic-internship-project-php.onrender.com'
-    ],
-    credentials: true
+    origin: '*',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Handle preflight requests
+app.options('*', cors());
+
 app.use(express.json());
 
 // ==================== AUTHENTICATION MIDDLEWARE ====================
