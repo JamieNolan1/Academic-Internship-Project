@@ -6,3 +6,4 @@ backend/*.log
 Thumbs.db 
 .vscode/ 
 node_modules/ 
+test-results/ 
