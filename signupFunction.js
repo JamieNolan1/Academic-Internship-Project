@@ -173,7 +173,7 @@ async function signupFunction(event) {
             errorDiv.textContent = 'Registration successful! Redirecting to login';
             
             setTimeout(function() {
-                window.location.href = 'login.html';
+                window.location.href = 'Login.html';
             }, 1500);
         } else {
             errorDiv.textContent = data.error || 'Registration failed. Please try again.';
