@@ -268,7 +268,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['delete_action']) && i
             <a href="https://academic-internship-project-php.onrender.com/Contact.html">Contact Us</a>
             <a href="https://academic-internship-project-php.onrender.com/FAQ.html">FAQ</a>
             <a href="https://academic-internship-project-php.onrender.com/Login.html">Login</a>
-            <a href="https://academic-internship-project-php.onrender.com/signup.html">Create New Account</a>
+            <a href="https://academic-internship-project-php.onrender.com/signUp.html">Create New Account</a>
         </div>
         
         <!-- User Info (PHP version - shows username from session) -->
