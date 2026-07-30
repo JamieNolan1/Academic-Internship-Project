@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //logout handler
 if (isset($_GET['logout'])) {
     session_destroy();
-    header('Location: https://profitpros-php.onrender.com/Login.html');
+    header('Location: https://academic-internship-project-php.onrender.com/Login.html');
     exit;
 }
 
@@ -68,7 +68,7 @@ $token = $_SESSION['token'] ?? null;
 
 // If no token in session, redirect to login
 if (!$token) {
-    header('Location: https://profitpros-php.onrender.com/Login.html');
+    header('Location: https://academic-internship-project-php.onrender.com/Login.html');
     exit;
 }
 
@@ -262,13 +262,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['delete_action']) && i
     <h1>ProfitPros</h1>
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; width: 100%;">
         <div>
-            <a href="https://profitpros-php.onrender.com/index.html">HomePage</a>
-            <a href="https://profitpros-php.onrender.com/Stock.html">Stocks</a>
+            <a href="https://academic-internship-project-php.onrender.com/index.html">HomePage</a>
+            <a href="https://academic-internship-project-php.onrender.com/Stock.html">Stocks</a>
             <a href="loss.php">Calculator</a>
-            <a href="https://profitpros-php.onrender.com/Contact.html">Contact Us</a>
-            <a href="https://profitpros-php.onrender.com/FAQ.html">FAQ</a>
-            <a href="https://profitpros-php.onrender.com/Login.html">Login</a>
-            <a href="https://profitpros-php.onrender.com/signup.html">Create New Account</a>
+            <a href="https://academic-internship-project-php.onrender.com/Contact.html">Contact Us</a>
+            <a href="https://academic-internship-project-php.onrender.com/FAQ.html">FAQ</a>
+            <a href="https://academic-internship-project-php.onrender.com/Login.html">Login</a>
+            <a href="https://academic-internship-project-php.onrender.com/signup.html">Create New Account</a>
         </div>
         
         <!-- User Info (PHP version - shows username from session) -->
@@ -299,7 +299,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['delete_action']) && i
             <p style="color:#c0392b; margin:0;"><strong>Error:</strong> <?php echo htmlspecialchars($api_error); ?></p>
             <?php if (strpos($api_error, 'Authentication') !== false): ?>
                 <p style="color:#666; margin-top:5px; font-size:14px;">
-                    Please <a href="https://profitpros-php.onrender.com/Login.html" style="color:#3498db;">login</a> first to save data.
+                    Please <a href="https://academic-internship-project-php.onrender.com/Login.html" style="color:#3498db;">login</a> first to save data.
                 </p>
             <?php endif; ?>
         </div>
