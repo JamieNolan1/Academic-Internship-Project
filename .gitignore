@@ -5,3 +5,7 @@ backend/*.log
 .DS_Store 
 Thumbs.db 
 .vscode/ 
+test-results/
+playwright-report/
+playwright/.cache/
+node_modules/
